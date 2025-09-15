@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kri-shak - My Farms</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --primary: #126731;
+      --primary-dark: #16a34a;
+      --secondary: #3f83f8;
+      --accent: #9061f9;
+      --warning: #f05252;
+    }
+
+    .sidebar {
+      width: 250px;
+      transition: all 0.3s ease;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70px;
+      }
+      .sidebar .menu-text {
+        display: none;
+      }
+      .main-content {
+        margin-left: 70px;
+      }
+    }
+
+    .help-card {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+    }
+
+    .help-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 12px;
+      height: 12px;
+      background-color: var(--warning);
+      border-radius: 50%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(14, 159, 110, 0.4);
+    }
+    
+    .farm-card {
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 flex">
+  <div class="sidebar text-white h-screen fixed top-0 left-0 py-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-center px-4 py-2 mb-8">
+        <i class="fas fa-leaf text-6xl"></i>
+        <span class="menu-text ml-2 text-xl font-bold">Kri-shak</span>
+      </div>
+
+      <nav class="mt-10">
+        <a href="dashboard.html" class="flex items-center px-6 py-3 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-chart-pie"></i>
+          <span class="menu-text ml-4">Dashboard</span>
+        </a>
+        <a href="my_farm.html" class="flex items-center px-6 py-3 mt-2 text-white bg-green-700 bg-opacity-20">
+          <i class="fas fa-map-marked-alt"></i>
+          <span class="menu-text ml-4">My Farms</span>
+        </a>
+        <a href="scan_crop.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-camera"></i>
+          <span class="menu-text ml-4">Scan Crop</span>
+        </a>
+        <a href="crop_recomendation.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-seedling"></i>
+          <span class="menu-text ml-4">Crop Advice</span>
+        </a>
+        <a href="help.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-question-circle"></i>
+          <span class="menu-text ml-4">Help & Support</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="px-6 py-4">
+      <div class="flex items-center">
+        <div class="relative">
+          <img class="h-10 w-10 rounded-full object-cover" src="https://via.placeholder.com/40" alt="User"/>
+          <div class="notification-dot"></div>
+        </div>
+        <div class="menu-text ml-3">
+          <p class="text-sm font-medium">Punjab Farmer</p>
+          <p class="text-xs text-gray-200 cursor-pointer" onclick="logout()">Logout</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content flex-1 ml-0 md:ml-[250px] p-6">
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800">My Farms</h2>
+          <p class="text-gray-600">View and manage all your registered farms</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <a href="dashboard.html" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg flex items-center hover:bg-gray-200 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            <span>Back to Dashboard</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-semibold text-gray-800">Your Farm Locations</h3>
+        <button class="btn-primary text-white px-4 py-2 rounded-lg">
+            <i class="fas fa-plus mr-2"></i>
+            Add New Farm
+        </button>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="farm-card p-4">
+            <h4 class="font-bold text-lg text-gray-800 mb-1">Punjab Farm</h4>
+            <p class="text-sm text-gray-500 mb-2">ID: #0012345</p>
+            <div class="text-gray-600 space-y-2">
+                <p><i class="fas fa-map-marker-alt text-green-600 mr-2"></i>District: Moga, Punjab</p>
+                <p><i class="fas fa-ruler-combined text-green-600 mr-2"></i>Area: 5 Acres</p>
+                <p><i class="fas fa-sun text-green-600 mr-2"></i>Crops: Wheat, Rice</p>
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+                <a href="#" class="text-sm text-blue-600 hover:underline">View Details</a>
+                <a href="#" class="text-sm text-red-600 hover:underline">Delete</a>
+            </div>
+        </div>
+        <div class="farm-card p-4">
+            <h4 class="font-bold text-lg text-gray-800 mb-1">Village Land</h4>
+            <p class="text-sm text-gray-500 mb-2">ID: #0012346</p>
+            <div class="text-gray-600 space-y-2">
+                <p><i class="fas fa-map-marker-alt text-green-600 mr-2"></i>District: Firozpur, Punjab</p>
+                <p><i class="fas fa-ruler-combined text-green-600 mr-2"></i>Area: 12 Acres</p>
+                <p><i class="fas fa-sun text-green-600 mr-2"></i>Crops: Cotton, Sugarcane</p>
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+                <a href="#" class="text-sm text-blue-600 hover:underline">View Details</a>
+                <a href="#" class="text-sm text-red-600 hover:underline">Delete</a>
+            </div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    function logout() {
+      // Implement your logout logic here
+      console.log("User logged out");
+      // Redirect to login page or home page
+      window.location.href = "login.html"; 
+    }
+  </script>
+</body>
+</html>

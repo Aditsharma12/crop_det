@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kri-shak - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #126731;
+            --primary-dark: #16a34a;
+            --secondary: #3f83f8;
+            --accent: #9061f9;
+            --warning: #f05252;
+        }
+        
+        .sidebar {
+            width: 250px;
+            transition: all 0.3s ease;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar .menu-text {
+                display: none;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--warning);
+            border-radius: 50%;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body class="flex" style="background: linear-gradient(to right, #16a34a, #16a34a);">
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar text-white h-screen fixed top-0 left-0 py-6 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center justify-center px-4 py-2 mb-8">
+                <!--<i class="fas fa-tractor text-2xl"></i>>-->
+                <i class="fas fa-leaf text-6xl"></i>
+                <span class="menu-text ml-2 text-xl font-bold">Kri-shak</span>
+            </div>
+            
+            <nav class="mt-10">
+                <a href="dashboard.html" class="flex items-center px-6 py-3 text-white bg-green-700 bg-opacity-20">
+                    <i class="fas fa-chart-pie"></i>
+                    <span class="menu-text ml-4">Dashboard</span>
+                </a>
+                <a href="my_farm.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20 hover:text-white">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span class="menu-text ml-4">My Farms</span>
+                </a>
+                <a href="scan_crop.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20 hover:text-white">
+                    <i class="fas fa-camera"></i>
+                    <span class="menu-text ml-4">Scan Crop</span>
+                </a>
+                <a href="crop_recomendation" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20 hover:text-white">
+                    <i class="fas fa-seedling"></i>
+                    <span class="menu-text ml-4">Spray Recommendation</span>
+                </a>
+                <a href="help.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20 hover:text-white">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="menu-text ml-4">Help & Support</span>
+                </a>
+            </nav>
+        </div>
+        
+        <div class="px-6 py-4">
+            <div class="flex items-center">
+                <div class="relative">
+                    <img class="h-10 w-10 rounded-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath fill-rule='evenodd' d='M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z' clip-rule='evenodd' /%3E%3C/svg%3E" alt="User">
+                    <div class="notification-dot"></div>
+                </div>
+                <div class="menu-text ml-3">
+                    <p class="text-sm font-medium" id="userEmail">Punjab Farmer</p>
+                    <p class="text-xs text-gray-200 cursor-pointer" onclick="logout()">Logout</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-1 ml-0 md:ml-[250px] p-6">
+        <!-- Header -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Kri-shak Dashboard</h2>
+                    <p class="text-gray-600">Intelligent farming solutions for modern agriculture</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center bg-green-50 rounded-lg p-3 border border-green-100">
+                            <div class="mr-4">
+                                <div class="h-3 w-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">System Status</p>
+                                <p class="font-semibold">Active & Monitoring</p>
+                            </div>
+                        </div>
+                        <div class="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center cursor-pointer hover:bg-green-700 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>
+                            <span>New Farm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Feature Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Scan Crop Card -->
+            <a href="scan_crop.html" class="feature-card p-6 flex flex-col items-center text-center cursor-pointer">
+                <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-camera text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Scan Crop</h3>
+                <p class="text-gray-600 mb-4">Upload or capture images of your crops to detect diseases and pests</p>
+                <div class="mt-auto w-full">
+                    <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm inline-block">
+                        <i class="fas fa-clock mr-1"></i> Quick Analysis
+                    </div>
+                </div>
+            </a>
+
+            <!-- Spray Recommendation Card -->
+            <a href="crop_recomendation.html" class="feature-card p-6 flex flex-col items-center text-center cursor-pointer">
+                <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-spray-can text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Spray Recommendation</h3>
+                <p class="text-gray-600 mb-4">Get precise pesticide recommendations based on crop health analysis</p>
+                <div class="mt-auto w-full">
+                    <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm inline-block">
+                        <i class="fas fa-flask mr-1"></i> AI-Powered
+                    </div>
+                </div>
+            </a>
+
+            <!-- My Farm Data Card -->
+            <a href="my_farm.html" class="feature-card p-6 flex flex-col items-center text-center cursor-pointer">
+                <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-database text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">My Farms</h3>
+                <p class="text-gray-600 mb-4">Access and manage all your farm information, history, and analytics</p>
+                <div class="mt-auto w-full">
+                    <div class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm inline-block">
+                        <i class="fas fa-chart-line mr-1"></i> Analytics
+                    </div>
+                </div>
+            </a>
+
+            <!-- Help Card -->
+            <a href="help.html" class="feature-card p-6 flex flex-col items-center text-center cursor-pointer">
+                <div class="w-16 h-16 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-question-circle text-yellow-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Help & Support</h3>
+                <p class="text-gray-600 mb-4">Find guides, tutorials, and contact support for assistance</p>
+                <div class="mt-auto w-full">
+                    <div class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm inline-block">
+                        <i class="fas fa-life-ring mr-1"></i> 24/7 Support
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Stats Overview -->
+       <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stats-card shadow-sm border border-gray-100 p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-600">Total Land Area</p>
+                        <p class="text-3xl font-bold">42.5 <span class="text-sm">acres</span></p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <i class="fas fa-map-marked text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <span class="ml-2 text-sm text-gray-600">75% utilized</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card shadow-sm border border-gray-100 p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-600">Healthy Crops</p>
+                        <p class="text-3xl font-bold">86<span class="text-sm">%</span></p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <i class="fas fa-heart text-green-600 text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4 text-sm text-green-600">
+                    <i class="fas fa-arrow-up"></i> 5% from last month
+                </div>
+            </div>
+            
+            <div class="stats-card shadow-sm border border-gray-100 p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-600">Infection Rate</p>
+                        <p class="text-3xl font-bold">7.2<span class="text-sm">%</span></p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-full">
+                        <i class="fas fa-bug text-yellow-600 text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4 text-sm text-red-600">
+                    <i class="fas fa-arrow-up"></i> 1.2% from last week
+                </div>
+            </div>
+            
+            <div class="stats-card shadow-sm border border-gray-100 p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-600">Resources Saved</p>
+                        <p class="text-3xl font-bold">64<span class="text-sm">%</span></p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <i class="fas fa-tint-slash text-purple-600 text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4 text-sm text-green-600">
+                    <i class="fas fa-check-circle"></i> Optimal usage
+                </div>
+            </div>
+        </div>
+    -->
+
+        <!-- Recent Activity -->
+       <!-- <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+            <h3 class="text-lg font-semibold mb-6">Recent Activity</h3>
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="bg-green-100 p-2 rounded-full mr-4">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium">Crop health analysis completed</p>
+                        <p class="text-sm text-gray-600">Wheat field analysis shows 92% healthy plants</p>
+                        <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="bg-blue-100 p-2 rounded-full mr-4">
+                        <i class="fas fa-tint-slash text-blue-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium">Water irrigation scheduled</p>
+                        <p class="text-sm text-gray-600">Field A3 irrigation scheduled for tomorrow 6:00 AM</p>
+                        <p class="text-xs text-gray-500 mt-1">5 hours ago</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="bg-yellow-100 p-2 rounded-full mr-4">
+                        <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium">Pest alert detected</p>
+                        <p class="text-sm text-gray-600">Low-level aphid detection in the northern section of Field B2</p>
+                        <p class="text-xs text-gray-500 mt-1">Yesterday</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <script>
+        // Check if user is logged in
+        window.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'index.html';
+            }
+            
+            if (userEmail) {
+                document.getElementById('userEmail').textContent = userEmail;
+            }
+        });
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

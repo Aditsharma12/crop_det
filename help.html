@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kri-shak - Help & Support</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --primary: #126731;
+      --primary-dark: #16a34a;
+      --secondary: #3f83f8;
+      --accent: #9061f9;
+      --warning: #f05252;
+    }
+
+    .sidebar {
+      width: 250px;
+      transition: all 0.3s ease;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70px;
+      }
+      .sidebar .menu-text {
+        display: none;
+      }
+      .main-content {
+        margin-left: 70px;
+      }
+    }
+
+    .help-card {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .help-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 12px;
+      height: 12px;
+      background-color: var(--warning);
+      border-radius: 50%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(14, 159, 110, 0.4);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+
+    .faq-item.active .faq-toggle i {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 flex">
+  <div class="sidebar text-white h-screen fixed top-0 left-0 py-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-center px-4 py-2 mb-8">
+        <i class="fas fa-leaf text-6xl"></i>
+        <span class="menu-text ml-2 text-xl font-bold">Kri-shak</span>
+      </div>
+
+      <nav class="mt-10">
+        <a href="dashboard.html" class="flex items-center px-6 py-3 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-chart-pie"></i>
+          <span class="menu-text ml-4">Dashboard</span>
+        </a>
+        <a href="my_farm.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-map-marked-alt"></i>
+          <span class="menu-text ml-4">My Farms</span>
+        </a>
+        <a href="scan_crop.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-camera"></i>
+          <span class="menu-text ml-4">Scan Crop</span>
+        </a>
+        <a href="crop_recomendation.html" class="flex items-center px-6 py-3 mt-2 text-gray-100 hover:bg-green-700 hover:bg-opacity-20">
+          <i class="fas fa-seedling"></i>
+          <span class="menu-text ml-4">Crop Advice</span>
+        </a>
+        <a href="help.html" class="flex items-center px-6 py-3 mt-2 text-white bg-green-700 bg-opacity-20">
+          <i class="fas fa-question-circle"></i>
+          <span class="menu-text ml-4">Help & Support</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="px-6 py-4">
+      <div class="flex items-center">
+        <div class="relative">
+          <img class="h-10 w-10 rounded-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath fill-rule='evenodd' d='M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.极狐 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z' clip-rule='evenodd' /%3E%3C/svg%3E" alt="User"/>
+          <div class="notification-dot"></div>
+        </div>
+        <div class="menu-text ml-3">
+          <p class="text-sm font-medium" id="userEmail">Punjab Farmer</p>
+          <p class="text-xs text-gray-200 cursor-pointer" onclick="logout()">Logout</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content flex-1 ml-0 md:ml-[250px] p-6">
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800">Help & Support</h2>
+          <p class="text-gray-600">Find answers to common questions and get assistance</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <a href="dashboard.html" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg flex items-center hover:bg-gray-200 transition-colors">
+            <i class="fas极狐-arrow-left mr-2"></i>
+            <span>Back to Dashboard</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards Container -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="help-card p-6 text-center">
+        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-book text-blue-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Knowledge Base</h3>
+        <p class="text-gray-600 mb-4">Browse our comprehensive guides and tutorials</p>
+        <button class="btn-primary text-white px-4 py-2 rounded-lg w-full">View Guides</button>
+      </div>
+
+      <div class="help-card p-6 text-center">
+        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-comments text-green-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Community Forum</h3>
+        <p class="text-gray-600 mb-4">Connect with other farmers and share experiences</p>
+        <button class="btn-primary text-white px-4 py-2 rounded-lg w-full">Join Discussion</button>
+      </div>
+
+      <div class="help-card p-6 text-center">
+        <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-headset text-purple-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semib极狐 text-gray-800 mb-2">Contact Support</h3>
+        <p class="text-gray-600 mb-4">Get direct help from our team by connecting us</p>
+        <button class="btn-primary text-white px-4 py-2 rounded-lg w-full" onclick="openContactModal()">Contact Us</button>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+      <h3 class="text-xl font-semibold text-gray-800 mb-6">Frequently Asked Questions</h3>
+
+      <div class="space-y-4" id="faqList">
+        <div class="faq-item">
+          <div class="flex justify-between items-center cursor-pointer py-4 faq-question" onclick="toggleFaq(this)">
+            <h4 class="font-medium text-gray-800">How do I scan my crops for diseases?</h4>
+            <div class="faq-toggle text-gray-500">
+              <i class="fas fa-chevron-down transition-transform duration-300"></i>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="pb-4 text-gray-600">
+              <p>To scan your crops, go to the "Crop Scan" section and either upload an image of your crops or use the camera feature to capture images directly. The system will analyze the image and provide a detailed report on any detected diseases or pests.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="flex justify-between items-center cursor-pointer py-4 faq-question" onclick="toggleFaq(this)">
+            <h4 class="font-medium text-gray-800">How accurate is the disease detection?</h4>
+            <div class="faq-toggle text-gray-500">
+              <i class="fas fa-chevron-down transition-transform duration-300"></i>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="pb-4 text-gray-600">
+              <p>Our AI-powered disease detection system has an accuracy rate of approximately 92% for common crop diseases. Accuracy may vary based on image quality and the specific disease. We recommend taking clear, well-lit photos of affected leaves for best results.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="flex justify-between items-center cursor-pointer py-4 faq-question" onclick="toggleFaq(this)">
+            <h4 class="font-medium text-gray-800">What crops are supported by Kri-shak?</h4>
+            <div class="faq-toggle text-gray-500">
+              <i class="fas fa-chevron-down transition-transform duration-300"></i>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="pb-4 text-gray-600">
+              <p>Kri-shak currently supports major crops including wheat, rice, cotton, sugarcane, corn, and soybeans. We are continuously expanding our database to include more crops. If your crop is not yet supported, please contact us with your request.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="flex justify-between items-center cursor-pointer py-4 faq-question" onclick="toggleFaq(this)">
+            <h4 class="font-medium text-gray-800">How do I interpret the pesticide recommendations?</h4>
+            <div class="faq-toggle text-gray-500">
+              <i class="fas fa-chevron-down transition-transform duration-300"></i>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="pb-4 text-gray-600">
+              <p>The pesticide recommendations are tailored based on the specific disease detected, infection severity, and crop type. Each recommendation includes dosage instructions, application frequency, and safety precautions. Always follow label instructions and wear protective equipment when applying pesticides.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="flex justify-between items-center cursor-pointer py-4 faq-question" onclick="toggleFaq(this)">
+            <h4 class="font-medium text-gray-800">Can I use Kri-shak on mobile devices?</h4>
+            <div class="faq-toggle text-gray-500">
+              <i class="fas fa-chevron-down transition-transform duration-300"></i>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="pb-4 text-gray-600">
+              <p>Yes, Kri-shak is fully responsive and works on all mobile devices. You can access all features including crop scanning, disease detection, and pesticide recommendations from your smartphone or tablet. We also recommend downloading our mobile app for the best experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+   
